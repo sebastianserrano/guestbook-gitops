@@ -3,10 +3,13 @@ kind: Kustomization
 resources:
 - frontend-deployment.yaml
 - frontend-service.yaml
+- frontend-namespace.yaml
 - redis-master-deployment.yaml
 - redis-master-service.yaml
+- redis-master-namespace.yaml
 - redis-slave-deployment.yaml
 - redis-slave-service.yaml
+- redis-slave-namespace.yaml
 
 images:
 - name: 457472006214.dkr.ecr.us-west-1.amazonaws.com/guestbook
