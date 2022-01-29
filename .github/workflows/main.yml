@@ -32,7 +32,6 @@ jobs:
       uses: actions/checkout@master
 
     # Add steps here like linting, testing, minification, etc.
-      
     - name: Setup ECR
       run: |
         # Login to AWS ECR
@@ -43,9 +42,15 @@ jobs:
         docker build \
           -t $CONTAINER_IMAGE \
           -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ./php-redis
- 
-    # Set image tag in kustomization
 
+      # Only push to registry on master
+    - name: Push
+      if: github.ref == 'refs/heads/master'
+      run: |
+        # Push image to AWS ECR
+        docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
+
+    # Set image tag in kustomization
     - name: Set image tag
       run: |
           cd deploy
@@ -61,13 +66,7 @@ jobs:
       with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: master
-          force: true       
-    
+          force: true
+
     # Add additional steps here like scanning of image
 
-    # Only push to registry on master
-    - name: Push
-      if: github.ref == 'refs/heads/master'
-      run: |
-        # Push image to AWS ECR
-        docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
