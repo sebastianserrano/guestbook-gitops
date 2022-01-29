@@ -35,6 +35,7 @@ jobs:
     - name: Setup ECR
       run: |
         aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+
     - name: Build and tag the image
       run: |
         # Build and tag the image
@@ -47,7 +48,7 @@ jobs:
       if: github.ref == 'refs/heads/master'
       run: |
         # Push image to AWS ECR
-        docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
+        docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/guestbook/$CONTAINER_IMAGE
 
     # Set image tag in kustomization
     - name: Set image tag
@@ -55,17 +56,16 @@ jobs:
           cd deploy
           kustomize edit set image $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
           cat kustomization.yaml
+
     - name: Commit kustomization
       run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -a -m "$CONTAINER_IMAGE"
+
     - name: Push changes to master
       uses: ad-m/github-push-action@master
       with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: master
           force: true
-
-    # Add additional steps here like scanning of image
-
