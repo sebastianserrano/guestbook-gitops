@@ -10,7 +10,3 @@ resources:
 - redis-slave-deployment.yaml
 - redis-slave-service.yaml
 - redis-slave-namespace.yaml
-images:
-- name: frontend
-  newName: 134978288309.dkr.ecr.us-east-2.amazonaws.com/guestbook
-  newTag: c8e0f9bf6a9232b37f81ab1ff90c74c719af6334
