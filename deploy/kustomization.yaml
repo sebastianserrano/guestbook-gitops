@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
 - frontend-deployment.yaml
 - frontend-service.yaml
-- frontend-namespace.yaml
+- namespace.yaml
 - redis-master-deployment.yaml
 - redis-master-service.yaml
 - redis-master-namespace.yaml
