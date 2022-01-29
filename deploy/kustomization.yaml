@@ -10,3 +10,6 @@ resources:
 - redis-slave-deployment.yaml
 - redis-slave-service.yaml
 - redis-slave-namespace.yaml
+images:
+- name: 134978288309.dkr.ecr.us-east-2.amazonaws.com/guestbook
+  newTag: 32b82504be936858698798dca5b15dd347500d06
